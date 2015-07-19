@@ -25,11 +25,11 @@ def add_padded_profile(doc, length, location, rotation, angle):
     # Gui.activeDocument().hide("Sketch")
     # Doesn't work.
     # Gui.activeDocument().setEdit(profile.Label,0)
-    doc.recompute()
+    # doc.recompute()
     Gui.activeDocument().resetEdit()
 
 x = 0
-def add_cube(doc, location, rotation):
+def add_cube(doc, location, rotation, angle):
     doc.mergeProject("Z:/cncmicroscope-cad/aluminum_extrusion_20mm_corner_cube.fcstd")
     o = doc.getObjectsByLabel("aluminum_extrusion_20mm_corner_cube")[0]
     # Must rename object here so that subsequent calls to getObjectsByLabel match the newest merged project object
@@ -37,7 +37,7 @@ def add_cube(doc, location, rotation):
     o.Label = o.Label + str(x)
     x += 1
     cube = o.Group[0].Sketch
-    cube.Placement = App.Placement(App.Vector(*location),App.Rotation(App.Vector(*rotation),0))
+    cube.Placement = App.Placement(App.Vector(*location),App.Rotation(App.Vector(*rotation),angle))
     
 for d in App.listDocuments().keys():
   try:
@@ -53,31 +53,31 @@ Gui.ActiveDocument=newdoc
 add_padded_profile(newdoc, beam_length, (0,0,profile_size/2), (0,0,1), 0)
 add_padded_profile(newdoc, beam_length, (0,beam_length+profile_size,profile_size/2), (0,0,1), 0)
 add_padded_profile(newdoc, beam_length, (beam_length+profile_size,0,profile_size/2), (0,0,1), 0)
-add_padded_profile(newdoc, beam_length, (beam_length+profile_size/2,beam_length+profile_size/2,profile_size/2), (0,0,1), 0)
+add_padded_profile(newdoc, beam_length, (beam_length+profile_size,beam_length+profile_size,profile_size/2), (0,0,1), 0)
 
 
 add_padded_profile(newdoc, beam_length, (profile_size/2, 0,0), (0,1,0), 90)
-add_padded_profile(newdoc, beam_length, (profile_size/2, beam_length+profile_size/2,0), (0,1,0), 90)
-add_padded_profile(newdoc, beam_length, (profile_size/2, beam_length+profile_size/2,beam_length+profile_size/2), (0,1,0), 90)
-add_padded_profile(newdoc, beam_length, (profile_size/2, 0,beam_length+profile_size/2), (0,1,0), 90)
+add_padded_profile(newdoc, beam_length, (profile_size/2, beam_length+profile_size,0), (0,1,0), 90)
+add_padded_profile(newdoc, beam_length, (profile_size/2, beam_length+profile_size,beam_length+profile_size), (0,1,0), 90)
+add_padded_profile(newdoc, beam_length, (profile_size/2, 0,beam_length+profile_size), (0,1,0), 90)
 
-add_padded_profile(newdoc, beam_length, (profile_size/2, 0,0), (1,0,0), 270)
-add_padded_profile(newdoc, beam_length, (profile_size/2 + beam_length+profile_size/2,0,0), (1,0,0), 270)
-add_padded_profile(newdoc, beam_length, (profile_size/2 + beam_length+profile_size/2,0, beam_length+profile_size/2), (1,0,0), 270)
-add_padded_profile(newdoc, beam_length, (profile_size/2, 0,beam_length+profile_size/2), (1,0,0), 270)
+add_padded_profile(newdoc, beam_length, (0, profile_size/2,0), (1,0,0), 270)
+add_padded_profile(newdoc, beam_length, (beam_length+profile_size,profile_size/2,0), (1,0,0), 270)
+add_padded_profile(newdoc, beam_length, (beam_length+profile_size,profile_size/2, beam_length+profile_size), (1,0,0), 270)
+add_padded_profile(newdoc, beam_length, (0, profile_size/2,beam_length+profile_size), (1,0,0), 270)
 
-add_cube(newdoc, (0,0,0), (0,0,1))
-add_cube(newdoc, (0,0,beam_length+profile_size), (0,0,1))
-add_cube(newdoc, (0,beam_length+profile_size,0), (0,0,1))
-add_cube(newdoc, (0,beam_length+profile_size,beam_length+profile_size), (0,0,1))
-add_cube(newdoc, (beam_length+profile_size,0, 0), (0,0,1))
-add_cube(newdoc, (beam_length+profile_size,beam_length+profile_size, 0), (0,0,1))
-add_cube(newdoc, (beam_length+profile_size,0,beam_length+profile_size), (0,0,1))
-add_cube(newdoc, (beam_length+profile_size,beam_length+profile_size, beam_length+profile_size), (0,0,1))
+add_cube(newdoc, (0,0,0), (0,0,1), 0)
+add_cube(newdoc, (0,0,beam_length+profile_size), (0, 1, 0), 90)
+add_cube(newdoc, (0,beam_length+profile_size,0), (0,0,1), 270)
+add_cube(newdoc, (0,beam_length+profile_size,beam_length+profile_size), (1,0,0), 180)
+add_cube(newdoc, (beam_length+profile_size,0, 0), (0,0,1), 90)
+add_cube(newdoc, (beam_length+profile_size,beam_length+profile_size, 0), (0,0,1), 180)
+add_cube(newdoc, (beam_length+profile_size,0,beam_length+profile_size), (0,1,0), 180)
+add_cube(newdoc, (beam_length+profile_size,beam_length+profile_size, beam_length+profile_size), (1, 0, 0), 180)
          
 
 
 
-
+newdoc.recompute()
 Gui.SendMsgToActiveView("ViewFit")
 

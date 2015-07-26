@@ -5,7 +5,7 @@ beam_length = 431.8
 
 y = 0
 def add_padded_profile(doc, length, location, rotation, angle):
-    doc.mergeProject("Z:/cncmicroscope-cad/aluminum_extrusion_20mm_profile.fcstd")
+    doc.mergeProject("/home/dek/cncmicroscope-cad/aluminum_extrusion_20mm_profile.fcstd")
     profile= doc.getObjectsByLabel("aluminum_extrusion_20mm_profile")[0]
     global y
     # Must rename object here so that subsequent calls to getObjectsByLabel match the newest merged project obj
@@ -30,7 +30,7 @@ def add_padded_profile(doc, length, location, rotation, angle):
 
 x = 0
 def add_cube(doc, location, rotation, angle):
-    doc.mergeProject("Z:/cncmicroscope-cad/aluminum_extrusion_20mm_corner_cube.fcstd")
+    doc.mergeProject("/home/dek/cncmicroscope-cad/aluminum_extrusion_20mm_corner_cube.fcstd")
     o = doc.getObjectsByLabel("aluminum_extrusion_20mm_corner_cube")[0]
     # Must rename object here so that subsequent calls to getObjectsByLabel match the newest merged project object
     global x
